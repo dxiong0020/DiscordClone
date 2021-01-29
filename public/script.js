@@ -3,25 +3,10 @@ console.log(videoGrid);
 const myVideo = document.createElement('video');
 myVideo.muted = true;
 
-let myVideoStream;
-
-// Use navigator to get video 
-// navigator.mediaDevices.getUserMedia({ // return promise
-//     audio: true,
-//     video: true
-// })
-// .then(stream => {
-//     myVideoStream = stream;
-//     addVideoStream(myVideo, stream);
-// }) 
-// .catch(e => {
-//     console.log('error', e);
-// })
-
 const getMedia = async () => {
     try {
         const stream = await navigator.mediaDevices.getUserMedia({audio: true, video: true});
-        addVideoStream(myVideo, stream);
+        return stream;
     }
     catch(e) {
         console.log('error', e);
@@ -36,4 +21,6 @@ const addVideoStream = (video, stream) => {
     videoGrid.append(video);
 }
 
-getMedia();
+getMedia().then(stream => {
+    addVideoStream(myVideo, stream);
+})
